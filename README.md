@@ -1,2 +1,1 @@
-# NAI
-Native Artificial Intelligence
+# Native Artificial Intelligence
