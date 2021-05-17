@@ -88,7 +88,7 @@ def similarity():
                 nplot(r5, g5, b5, r, g, b, x2, y2)
                 nplot(r6, g6, b6, r, g, b, x1, y2)
  
-def grow(x):
+def grow(x ,y):
     set0 = 0
     for x0 in range(0, set0 + 1):
         #print(x0)
@@ -138,7 +138,7 @@ for i in range(0, len(pixels)):
                 if (r,g,b) == (pixels[i][0], pixels[i][1], pixels[i][2]):
                     #pixel_pool2.append((x,y))
                     #similarity()
-                    grow(x)
+                    grow(x, y)
 #print(pixel_pool)
 #print(pixel_pool2)
 #print(len(pixel_pool))
