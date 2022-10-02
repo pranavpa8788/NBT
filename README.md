@@ -1,3 +1,3 @@
-# Native Artificial Intelligence
+# Native Border Tracer
 
-I'm trying to create an image detection AI from scatch. This is just a fun project I work during my spare time and at the moment barely is even functional. So feel free to do whatever you like with it. Cheers!
+This is a Python program to trace border of images. No external libraries are used except basic image processing libraries such as PIL, etc and everything else is made from scratch
