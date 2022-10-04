@@ -3,69 +3,63 @@ import math, random
 import sys
 import pprint
 
-pp = pprint.PrettyPrinter(indent=4)
-
-im = Image.open('images/cat2.jpg')
-
-#pixels is the list of all the rgb values of the pixels in the image
-pixels = list(im.getdata())
-
-rgb_im = im.convert('RGB')
-
-width, height = im.size
-
-x,y,z = 0,0,0
-
-#This snippet gets the sum of the r,g,b values of all the pixels
-for i in range(0, len(pixels)):
-        x = x + pixels[i][0]
-        
-for i in range(0, len(pixels)):
-        y = y + pixels[i][1]
-        
-for i in range(0, len(pixels)):
-        z = z + pixels[i][2]
-
-#avgR = x/len(pixels)
-#avgG = y/len(pixels)
-#avgB = z/len(pixels)
-
-#Calculates the average r,g,b color values
-avgR = int(0.5*(x/len(pixels)))
-avgG = int(0.5*(y/len(pixels)))
-avgB = int(0.5*(z/len(pixels)))
-
-#avgR = 255
-#avgG = 255
-#avgB = 255
-
 def avg_limiter(x):
     if x < 255:
         return x
     elif x >= 255:
         return 255
 
-def modulus(X):
-    if X >= 0:
-        return X
-    else :
-        return -X
-    
-def diff(a,b) :
-    A = modulus(a-b)
-    return 
+pprint = pprint.PrettyPrinter(indent=4)
+
+image = Image.open('images/cat2.jpg')
+
+#img_data is the list of all the rgb values of the img_data in the image
+img_data = list(image.getdata())
+
+rgb_data = image.convert('RGB')
+
+width, height = image.size
+
+x, y, z = 0, 0, 0
+
+#This snippet gets the sum of the r,g,b values of all the img_data
+for i in range(0, len(img_data)):
+        x = x + img_data[i][0]
+
+for i in range(0, len(img_data)):
+        y = y + img_data[i][1]
+
+for i in range(0, len(img_data)):
+        z = z + img_data[i][2]
+
+#avgR = x/len(img_data)
+#avgG = y/len(img_data)
+#avgB = z/len(img_data)
+
+#Calculates the average r,g,b color values
+avgR = int(0.5*(x/len(img_data)))
+avgG = int(0.5*(y/len(img_data)))
+avgB = int(0.5*(z/len(img_data)))
+
+#avgR = 255
+#avgG = 255
+#avgB = 255
 
 def nplot(a0, b0, c0, a1, b1, c1, x3, y3):
-    D0 = diff(a0,a1)
-    D1 = diff(b0, b1)
-    D2 = diff(c0, c1)
+    D0 = abs(a0 - a1)
+    D1 = abs(b0 - b1)
+    D2 = abs(c0 - c1)
+
     set_limit = 255
+
+    #If the D0, D1 and D2 are within limits, put pixel at x3, y3
     if (D0 >= 0 and D0 <= set_limit) and (D1 >= 0 and D1 <= set_limit) and (D2 >= 0 and D2 <= set_limit) :
         print(0)
         im.putpixel( (x3,y3), (r0,g0,b0) )
- 
+
 def similarity(x, y, r, g, b):
     set0 = 0
+
     for x0 in range(0, set0 + 1):
         x1 = x + x0
         x2 = x - x0
@@ -74,7 +68,7 @@ def similarity(x, y, r, g, b):
             r2, g2, b2 = rgb_im.getpixel((x1,y))
             nplot(r1, g1, b1, r, g, b, x2, y)
             nplot(r2, g2, b2, r, g, b, x1, y)
-        for y0 in range(1, set0 + 1):   
+        for y0 in range(1, set0 + 1):
             y1 = y + y0
             y2 = y - y0
             if x1 <= width-1 and x2 >= 0 and y1 <= height-1 and y2 >= 0:
@@ -86,7 +80,7 @@ def similarity(x, y, r, g, b):
                 nplot(r4, g4, b4, r, g, b, x1, y1)
                 nplot(r5, g5, b5, r, g, b, x2, y2)
                 nplot(r6, g6, b6, r, g, b, x1, y2)
- 
+
 def grow(x ,y):
     set0 = 0
     for x0 in range(0, set0 + 1):
@@ -100,7 +94,7 @@ def grow(x ,y):
         for y0 in range(1, set0 + 1):
             y1 = y + y0
             y2 = y - y0
-            if y1 <= height-1 and y2 >= 0 and x2 >= 0 and x1 <= width-1:  
+            if y1 <= height-1 and y2 >= 0 and x2 >= 0 and x1 <= width-1:
                 pixel_pool.append((x2,y1))
                 pixel_pool.append((x1,y1))
                 pixel_pool.append((x2,y2))
@@ -109,17 +103,17 @@ def grow(x ,y):
                 im.putpixel( (x1,y1), (r0,g0,b0) )
                 im.putpixel( (x2,y2), (r0,g0,b0) )
                 im.putpixel( (x1,y2), (r0,g0,b0) )
-        
-pixel_pool= []        
+
+pixel_pool= []
 black_list=[]
-for i in range(0, len(pixels)):
-    diffR = pixels[i][0] - avgR
-    diffG = pixels[i][1] - avgG
-    diffB = pixels[i][2] - avgB
-    
+for i in range(0, len(img_data)):
+    diffR = img_data[i][0] - avgR
+    diffG = img_data[i][1] - avgG
+    diffB = img_data[i][2] - avgB
+
     ulimit = 145
     llimit = 140
-    
+
     r0 = 0
     g0 = 200
     b0 = 247
@@ -128,16 +122,16 @@ for i in range(0, len(pixels)):
         for x in range(width):
             for y in range(height):
                 r, g, b = rgb_im.getpixel((x, y))
-                if (r,g,b) == (pixels[i][0], pixels[i][1], pixels[i][2]):                    
-                    try : 
-                        if sys.argv[1] == '--grow' : 
+                if (r,g,b) == (img_data[i][0], img_data[i][1], img_data[i][2]):
+                    try :
+                        if sys.argv[1] == '--grow' :
                             grow(x, y)
                         elif sys.argv[1] == '--similarity':
                             similarity(x, y, r, g, b)
-                        elif sys.argv[1] == '--grosim' : 
+                        elif sys.argv[1] == '--grosim' :
                             grow(x, y)
                             similarity(x, y, r, g, b)
-                    except : 
+                    except :
                         pass
 
 r7, g7, b7 = 75, 0, 130
@@ -200,14 +194,14 @@ def sq(x0,y0,x1,y1):
     return z
 
 def path_finder(T0x,Z0y,T1x,Z1y):
-    
+
     (T0, Z0) = (T0x,Z0y)
     (T1, Z1) = (T1x,Z1y)
 
     diagonal = sq(T0,Z0,T1,Z1)
-    
+
     set_limit3 = diagonal + 1
-    
+
     if T1 > T0 and Z1 > Z0:
         #im.putpixel( (T0x-1,Z0y-1), (255,255,0) )
         #im.putpixel( (T1x+1,Z1y+1), (130,205,110) )
@@ -289,7 +283,7 @@ def path_finder(T0x,Z0y,T1x,Z1y):
                     for I2 in range(0, Z1-Z0+1):
                         im.putpixel( (T0, Z0+I2), (r7,g7,b7) )
                     return None
-    
+
         elif Z1 < Z0:
             #im.putpixel( (T0x,Z0y+1), (255,255,0) )
             #im.putpixel( (T1x,Z1y-1), (130,205,110) )
@@ -307,7 +301,7 @@ def path_finder(T0x,Z0y,T1x,Z1y):
                     for I2 in range(0, T1-T0+1):
                         im.putpixel( (T0+I2, Z0), (r7,g7,b7) )
                     return None
-    
+
         elif T1 < T0:
             #im.putpixel( (T0x+1,Z0y), (255,255,0) )
             #im.putpixel( (T1x-1,Z1y), (130,205,110) )
@@ -320,17 +314,3 @@ def path_finder(T0x,Z0y,T1x,Z1y):
 #finder()
 ##print(black_list)
 im.show()
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
